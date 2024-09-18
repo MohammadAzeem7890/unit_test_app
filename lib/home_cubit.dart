@@ -14,8 +14,13 @@ class HomeCubit extends Cubit<HomeState> {
 
   final HomeNetwork _homeNetwork = HomeNetwork(Client());
 
-  getPosts() {
-    return _homeNetwork.fetchPosts();
+  getPosts() async {
+    try {
+      return await _homeNetwork.fetchPosts();
+    } catch (e) {
+      print("this is exception: $e");
+      throw Exception(e);
+    }
   }
 
   int get getCounter => _counter;

@@ -34,9 +34,7 @@ class HomeNetwork {
         throw Exception("Failed to load posts");
       }
     } catch (e) {
-      // Handle any exceptions that occur
-      print("Error occurred: $e");
-      return [];
+      throw Exception(e);
     }
   }
 }
