@@ -76,6 +76,27 @@ void main() {
     final findCircularProgressBar = find.byType(CircularProgressIndicator);
     expect(findCircularProgressBar, findsOne);
 
+    // assure the initial values of animated container
+    var animatedContainerFinder = find.byKey(const Key("animation_container"));
+    expect(animatedContainerFinder, findsOneWidget);
+    var animatedContainer = tester.widget<Container>(animatedContainerFinder);
+    expect(animatedContainer.constraints!.minWidth, 0);
+    expect(animatedContainer.constraints!.minHeight, 0);
+    expect((animatedContainer.decoration as BoxDecoration).borderRadius,
+        BorderRadius.zero);
+    expect((animatedContainer.decoration as BoxDecoration).color, Colors.blue);
+
+    await tester.pumpAndSettle();
+
+    // test when animation is done
+    animatedContainerFinder = find.byKey(const Key("animation_container"));
+    animatedContainer = tester.widget<Container>(animatedContainerFinder);
+    expect(animatedContainer.constraints!.minWidth, 200);
+    expect(animatedContainer.constraints!.minHeight, 200);
+    expect((animatedContainer.decoration as BoxDecoration).borderRadius,
+        BorderRadius.circular(50));
+    expect((animatedContainer.decoration as BoxDecoration).color, Colors.green);
+
     await tester.pumpAndSettle();
     //
     final findListView = find.byType(ListView);
