@@ -3,15 +3,15 @@ import 'package:unit_testing_app/home_cubit.dart';
 import 'package:unit_testing_app/post_model.dart';
 
 class Home extends StatefulWidget {
-  final Future<List<PostModel>> futureListOfPosts;
-  const Home({super.key, required this.futureListOfPosts});
+  final Future<List<PostModel>>? futureListOfPosts;
+  const Home({super.key, this.futureListOfPosts});
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
-  final HomeCubit _cubit = HomeCubit();
+  late final HomeCubit _homeCubit;
   late final AnimationController _animatedContainer;
   late final Animation<double> _widthAnimation;
   late final Animation<Color?> _colorAnimation;
@@ -19,6 +19,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
+    _homeCubit = HomeCubit();
     _animatedContainer =
         AnimationController(vsync: this, duration: const Duration(seconds: 2));
     _widthAnimation = Tween<double>(begin: 0, end: 200).animate(
@@ -36,19 +37,19 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   incrementCounter() {
     setState(() {
-      _cubit.incrementCounter();
+      _homeCubit.incrementCounter();
     });
   }
 
   decrementCounter() {
     setState(() {
-      _cubit.decrementCounter();
+      _homeCubit.decrementCounter();
     });
   }
 
   resetCounter() {
     setState(() {
-      _cubit.resetCounter();
+      _homeCubit.resetCounter();
     });
   }
 
@@ -87,7 +88,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     return Container(
                       key: const Key("animation_container"),
                       height: _widthAnimation.value,
-                      width: _widthAnimation.value,
+                      width: _widthAnimation.value * 2,
                       decoration: BoxDecoration(
                         color: _colorAnimation.value,
                         borderRadius:
@@ -99,7 +100,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 height: 20,
               ),
               Text(
-                "Following is counter value: \n ${_cubit.getCounter.toString()}",
+                "Following is counter value: \n ${_homeCubit.getCounter.toString()}",
                 textAlign: TextAlign.center,
                 style:
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -171,18 +172,21 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             FloatingActionButton(
+              heroTag: "increment_counter",
               key: const Key("increment_counter"),
               onPressed: incrementCounter,
               tooltip: 'Increment',
               child: const Icon(Icons.add),
             ),
             FloatingActionButton(
+              heroTag: "decrement_counter",
               key: const Key("decrement_counter"),
               onPressed: decrementCounter,
               tooltip: 'Decrement',
               child: const Icon(Icons.minimize),
             ),
             FloatingActionButton(
+              heroTag: "reset_counter",
               key: const Key("reset_counter"),
               onPressed: resetCounter,
               tooltip: 'Reset',

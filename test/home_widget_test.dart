@@ -91,7 +91,7 @@ void main() {
     // test when animation is done
     animatedContainerFinder = find.byKey(const Key("animation_container"));
     animatedContainer = tester.widget<Container>(animatedContainerFinder);
-    expect(animatedContainer.constraints!.minWidth, 200);
+    expect(animatedContainer.constraints!.minWidth, 200 * 2);
     expect(animatedContainer.constraints!.minHeight, 200);
     expect((animatedContainer.decoration as BoxDecoration).borderRadius,
         BorderRadius.circular(50));
