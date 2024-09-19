@@ -6,6 +6,7 @@ import 'package:http/http.dart';
 import 'package:unit_testing_app/home_network.dart';
 import 'package:unit_testing_app/home_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:unit_testing_app/post_model.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
@@ -14,7 +15,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   final HomeNetwork _homeNetwork = HomeNetwork(Client());
 
-  getPosts() async {
+  Future<List<PostModel>> getPosts() async {
     try {
       return await _homeNetwork.fetchPosts();
     } catch (e) {
